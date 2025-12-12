@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B2B Lead Scraper - Roofing Businesses USA</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">🎯</div>
+                <h1>B2B Lead Scraper</h1>
+            </div>
+            <div class="header-stats">
+                <div class="stat-badge">
+                    <span class="stat-label">Total Leads</span>
+                    <span class="stat-value" id="totalLeads">0</span>
+                </div>
+                <div class="stat-badge">
+                    <span class="stat-label">Active Campaigns</span>
+                    <span class="stat-value" id="activeCampaigns">0</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="nav-tabs">
+            <button class="tab-btn active" data-tab="scraper">
+                <span class="tab-icon">🔍</span>
+                Scraper
+            </button>
+            <button class="tab-btn" data-tab="leads">
+                <span class="tab-icon">📊</span>
+                Leads Database
+            </button>
+            <button class="tab-btn" data-tab="campaigns">
+                <span class="tab-icon">📧</span>
+                Email Campaigns
+            </button>
+            <button class="tab-btn" data-tab="analytics">
+                <span class="tab-icon">📈</span>
+                Analytics
+            </button>
+        </nav>
+
+        <!-- Tab Content -->
+        <main class="content">
+            <!-- Scraper Tab -->
+            <div class="tab-content active" id="scraper">
+                <div class="scraper-section">
+                    <div class="card">
+                        <h2>🎯 Scrape Roofing Businesses</h2>
+                        <p class="subtitle">Extract B2B leads with verified mobile numbers from Google Maps & Apollo</p>
+                        
+                        <div class="form-group">
+                            <label for="industry">Industry</label>
+                            <input type="text" id="industry" value="Roofing Contractors" readonly>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="location">Location (State or City)</label>
+                            <input type="text" id="location" placeholder="e.g., Texas, Houston, CA" value="Texas">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="leadLimit">Number of Leads</label>
+                            <input type="number" id="leadLimit" value="50" min="1" max="1000">
+                        </div>
+
+                        <div class="data-sources">
+                            <h3>Data Sources</h3>
+                            <div class="source-badges">
+                                <span class="source-badge">✓ Google Maps API</span>
+                                <span class="source-badge">✓ Apify Platform</span>
+                                <span class="source-badge">✓ Apollo.io</span>
+                            </div>
+                        </div>
+                        
+                        <button class="btn-primary" id="startScrape">
+                            <span class="btn-icon">🚀</span>
+                            Start Scraping
+                        </button>
+                        
+                        <div class="scraping-status" id="scrapingStatus" style="display: none;">
+                            <div class="loading-spinner"></div>
+                            <p>Scraping leads from Google Maps & Apify...</p>
+                        </div>
+                    </div>
+
+                    <div class="results-preview" id="resultsPreview" style="display: none;">
+                        <div class="card">
+                            <h3>✨ Scraping Results</h3>
+                            <div class="results-stats" id="resultsStats"></div>
+                            <div class="preview-leads" id="previewLeads"></div>
+                            <button class="btn-secondary" id="viewAllLeads">View All Leads →</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leads Database Tab -->
+            <div class="tab-content" id="leads">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>📊 Leads Database</h2>
+                        <div class="filter-controls">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="verifiedOnly">
+                                <span>Verified Only</span>
+                            </label>
+                            <button class="btn-secondary" id="exportLeads">Export CSV</button>
+                        </div>
+                    </div>
+                    <div class="leads-table-container">
+                        <table class="leads-table" id="leadsTable">
+                            <thead>
+                                <tr>
+                                    <th>Business Name</th>
+                                    <th>Owner</th>
+                                    <th>Phone</th>
+                                    <th>Email</th>
+                                    <th>Location</th>
+                                    <th>Rating</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="leadsTableBody">
+                                <tr>
+                                    <td colspan="8" class="no-data">Click "Load Leads" to view database</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <button class="btn-primary" id="loadLeads" style="margin-top: 20px;">Load Leads</button>
+                </div>
+            </div>
+
+            <!-- Email Campaigns Tab -->
+            <div class="tab-content" id="campaigns">
+                <div class="campaigns-grid">
+                    <div class="card">
+                        <h2>📧 Create Email Campaign</h2>
+                        <div class="form-group">
+                            <label for="campaignName">Campaign Name</label>
+                            <input type="text" id="campaignName" placeholder="e.g., Summer Roofing Outreach">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="emailTemplate">Email Template</label>
+                            <select id="emailTemplate">
+                                <option value="intro">Introduction & Services</option>
+                                <option value="partnership">Partnership Opportunity</option>
+                                <option value="demo">Product Demo Offer</option>
+                                <option value="followup">Follow-up Message</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="targetLeads">Target Leads</label>
+                            <input type="number" id="targetLeads" value="25" min="1">
+                            <small>Number of leads to include in campaign</small>
+                        </div>
+                        
+                        <button class="btn-primary" id="createCampaign">
+                            <span class="btn-icon">✉️</span>
+                            Create Campaign
+                        </button>
+                    </div>
+
+                    <div class="card">
+                        <h3>Active Campaigns</h3>
+                        <div class="campaigns-list" id="campaignsList">
+                            <p class="no-data">No campaigns yet. Create one to get started!</p>
+                        </div>
+                        <button class="btn-secondary" id="refreshCampaigns" style="margin-top: 15px;">Refresh Status</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics Tab -->
+            <div class="tab-content" id="analytics">
+                <div class="analytics-grid">
+                    <div class="card stat-card">
+                        <div class="stat-card-icon">📊</div>
+                        <div class="stat-card-content">
+                            <h3>Total Leads</h3>
+                            <p class="stat-number" id="analyticsTotal">0</p>
+                            <span class="stat-change positive">+15% this week</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card stat-card">
+                        <div class="stat-card-icon">✓</div>
+                        <div class="stat-card-content">
+                            <h3>Verified Leads</h3>
+                            <p class="stat-number" id="analyticsVerified">0</p>
+                            <span class="stat-change positive">92% verified</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card stat-card">
+                        <div class="stat-card-icon">⭐</div>
+                        <div class="stat-card-content">
+                            <h3>Avg Rating</h3>
+                            <p class="stat-number" id="analyticsRating">0.0</p>
+                            <span class="stat-change">Quality businesses</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card stat-card">
+                        <div class="stat-card-icon">🗺️</div>
+                        <div class="stat-card-content">
+                            <h3>States Covered</h3>
+                            <p class="stat-number" id="analyticsStates">0</p>
+                            <span class="stat-change">Nationwide coverage</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 30px;">
+                    <h2>📈 Campaign Performance</h2>
+                    <div class="performance-metrics" id="performanceMetrics">
+                        <p class="no-data">Create campaigns to see performance metrics</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
